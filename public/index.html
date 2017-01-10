@@ -29,6 +29,12 @@ P {
 	text-align: center;
 	font-size: 24pt;
 }
+#dialog-form fieldset {
+	border: 0;
+}
+#dialog-form label {
+	clear: left;
+}
 
 </style>
 </head>
@@ -42,6 +48,17 @@ P {
 			<img src="style/inda_bottom.png"/>
 		</div>
 	</div>
+
+	<div id="dialog-form" title="Foglalás">
+		<form>
+			<fieldset>
+				<label for="email">E-mail címed:</label>
+				<input type="text" name="email" value="" class="text ui-widget-content ui-corner-all">
+				<input type="hidden" name="id"/>
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
 	</div>
+
 </body>
 </html>
