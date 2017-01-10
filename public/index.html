@@ -2,6 +2,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <title>Bogi és Csaba</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+	$(document).ready(function(){
+		new App();
+	});
+</script>
 <style>
 @font-face {
 	font-family: LoraMOD;
@@ -20,6 +27,8 @@ P {
 	font-family: LoraMOD;
 	font-size: 24pt;
 }
+#base { display:none; }
+
 </style>
 </head>
 <body>
@@ -31,6 +40,8 @@ P {
 		<div class="header">
 			<img src="style/inda_bottom.png"/>
 		</div>
+	</div>
+	<div id="list">
 	</div>
 </body>
 </html>
