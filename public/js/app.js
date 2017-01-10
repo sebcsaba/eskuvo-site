@@ -3,12 +3,7 @@ function Model() {
 	this.api = 'app.php';
 
 	this.list = function(cb){
-//		$.getJSON(this.api, null, cb);
-		var data = [
-			{id:1,description:'Mars-utazás'},
-			{id:2,description:'Elefántfarm'}
-		];
-		cb(data);
+		$.getJSON(this.api+'/wish', null, cb);
 	};
 
 	this.reserve = function(id, email, cb){
