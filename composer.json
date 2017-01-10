@@ -1,0 +1,25 @@
+{
+  "name": "sebcsaba/eskuvo-site",
+  "description": "eskuvo site",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "sebcsaba",
+      "email": "sebcsaba@gmail.com"
+    },
+    {
+      "name": "fqqdk",
+      "email": "fqqdk1@gmail.com"
+    }
+  ],
+  "require": {
+    "php" : "~5.4",
+    "silex/silex": "2.1.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
+}
