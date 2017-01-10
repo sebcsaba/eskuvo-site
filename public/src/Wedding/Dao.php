@@ -19,7 +19,7 @@ class Dao
 
     public function getWishes()
     {
-        return $this->fetchAll("SELECT id, description FROM wedding_list ORDER BY description");
+        return $this->fetchAll("SELECT id, description FROM wedding_list WHERE email IS NULL ORDER BY description");
     }
 
     private function fetchAll($query)
