@@ -13,13 +13,16 @@
       "email": "fqqdk1@gmail.com"
     }
   ],
-  "require": {
-    "php" : "~5.4",
-    "silex/silex": "2.1.x-dev"
+  "config": {
+    "vendor-dir": "public/vendor"
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "": "public/src/"
     }
+  },
+  "require": {
+    "php" : "~5.4",
+    "silex/silex": "2.1.x-dev"
   }
 }
