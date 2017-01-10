@@ -27,7 +27,7 @@ function App() {
 		$.each(list, function(key,val) {
 			items.push('<li id="'+val.id+'">' + val.description + '</li>');
 		});
-		$('<ul/>', { html: items.join('') }).appendTo('#list');
+		$('#list').html($('<ul/>', { html: items.join('') }));
 	}
 	this.model.list(initList);
 
@@ -36,12 +36,28 @@ function App() {
 		modal: true,
 		height: 200,
 		width: 400,
-		modal: true,
 		buttons: {
-//			"Lefoglalom!": app.onSubmit,
+			'Lefoglalom!': function(){
+				app.onSubmit();
+			},
 			'Mégsem': function(){
 				app.dialog.dialog('close');
 			}
+		}
+	});
+
+	this.thx = $('#dialog-thx').dialog({
+		autoOpen: false,
+		modal: true,
+		height: 200,
+		width: 250,
+		buttons: {
+			'Bezárás': function(){
+				app.thx.dialog('close');
+			}
+		},
+		close: function(){
+			app.model.list(initList);
 		}
 	});
 
@@ -56,8 +72,13 @@ function App() {
 	this.onSubmit = function() {
 		var id = $('#dialog-form input[name=id]').val();
 		var email = $('#dialog-form input[name=email]').val();
-		app.model.reserve(id, email, function(){});
+		app.model.reserve(id, email, function(){
+			app.submitted();
+		});
 		app.dialog.dialog('close');
 	};
 
+	this.submitted = function() {
+		app.thx.dialog('open');
+	};
 }
