@@ -4,6 +4,7 @@ namespace Wedding;
 
 use PDO;
 use Silex\Application as SilexApplication;
+use Util\Json;
 
 class Application
 {
@@ -38,7 +39,7 @@ class Application
     private function wishList()
     {
         return function () {
-            return json_encode($this->factory->createDao()->getWishes());
+            return Json::create()->encode($this->factory->createDao()->getWishes());
         };
     }
 }
