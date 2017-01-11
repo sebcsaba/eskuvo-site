@@ -15,6 +15,16 @@ function Model() {
 		cb();
 	};
 
+	this.cancel = function(id, email, code, cb){
+		var data = {
+			id: id,
+			email: email,
+			code: code
+		};
+//		$.getJSON(this.api+'/cancel', data, cb);
+		cb();
+	};
+
 }
 
 function App() {
@@ -90,4 +100,16 @@ function App() {
 	};
 
 	$('#dialog-form').on('keypress change focus', 'input[name=email]', this.verifyEmail);
+
+	this.handleUrlRequest = function(param) {
+		var m = param.match(/^#cancel\|(.*)\|(.*)\|(.*)/);
+		if (m) {
+			app.model.cancel(m[1],m[2],[3],app.onCancel);
+		}
+	}
+
+	this.onCancel = function() {
+		app.thx.dialog('open');
+	}
+
 }
