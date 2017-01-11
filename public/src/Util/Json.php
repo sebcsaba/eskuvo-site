@@ -39,9 +39,9 @@ class Json
         $this->errorMap = $errorMap;
     }
 
-    public function encode($value, $options = 0, $depth = 512)
+    public function encode($value, $options = 0)
     {
-        $result = json_encode($value, $options, $depth);
+        $result = json_encode($value, $options);
         $errorCode = json_last_error();
         if (JSON_ERROR_NONE === $errorCode) {
             return $result;
