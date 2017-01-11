@@ -81,4 +81,13 @@ function App() {
 	this.submitted = function() {
 		app.thx.dialog('open');
 	};
+
+	this.emailPattern = new RegExp("^[^@]+@[^@]+$");
+	this.verifyEmail = function() {
+		var email = $('#dialog-form input[name=email]').val();
+		var valid = app.emailPattern.test(email);
+		$('#dialog-form').closest('.ui-widget').find('.ui-dialog-buttonset button:first-of-type').prop('disabled', !valid);
+	};
+
+	$('#dialog-form').on('keypress change focus', 'input[name=email]', this.verifyEmail);
 }
