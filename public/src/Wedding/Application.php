@@ -72,8 +72,12 @@ class Application
 			$code = Hash::calculate([$id, $email, time()]);
 			$wish = $this->factory->createDao()->reserveWish($id, $email, $code);
 
-			// $wish->description
-			// '#'.url_encode("cancel|$id|$email|$code");
+			$url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/'. $_SERVER['REQUEST_URI'] . '#' . url_encode("cancel|$id|$email|$code");
+			Mail::create(
+				'subject',
+				MailTemplate::create($url, $wish->description)->render()
+			)->sendTo([$email]);
+
 			$response->json('OK');
 		};
 	}
@@ -89,11 +93,6 @@ class Application
 			$code = $request->get('code');
 
 			$this->factory->createDao()->cancelWish($id, $email, $code);
-
-			Mail::create(
-				'subject',
-				MailTemplate::create('URL', 'DESCRIPTION')->render()
-			)->sendTo([$email]);
 
 			$response->json('OK');
 		};

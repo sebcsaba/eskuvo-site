@@ -12,6 +12,7 @@ class MailTemplate
 			?>
 			<html>
 			<body>
+			<h1><?= $description ?></h1>
 			this is the url: <?= $url ?>
 			</body>
 			</html>
