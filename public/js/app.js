@@ -12,7 +12,6 @@ function Model() {
 			email: email
 		};
 		$.post(this.api+'/reserve', data, cb, 'json');
-		cb();
 	};
 
 	this.cancel = function(id, email, code, cb){
@@ -21,8 +20,7 @@ function Model() {
 			email: email,
 			code: code
 		};
-//		$.getJSON(this.api+'/cancel', data, cb);
-		cb();
+		$.post(this.api+'/cancel', data, cb, 'json');
 	};
 
 }
@@ -104,7 +102,7 @@ function App() {
 	this.handleUrlRequest = function(param) {
 		var m = param.match(/^#cancel\|(.*)\|(.*)\|(.*)/);
 		if (m) {
-			app.model.cancel(m[1],m[2],[3],app.onCancel);
+			app.model.cancel(m[1],m[2],m[3],app.onCancel);
 		}
 	}
 

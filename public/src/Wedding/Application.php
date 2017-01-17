@@ -30,6 +30,7 @@ class Application
 
 		$app->get('/wish', $this->wishList());
 		$app->post('/reserve', $this->reserveItem());
+		$app->post('/cancel', $this->cancelItem());
 
 		$app->run();
 	}
@@ -53,6 +54,19 @@ class Application
 			$email = $request->request->get('email');
 			$code = substr(sha1($id.'|'.$email.'|'.time()), 0, 8);
 			$this->factory->createDao()->reserveWish($id, $email, $code);
+			return Json::create()->encode('OK');
+		};
+	}
+
+	/**
+	 * @return callable
+	 */
+	private function cancelItem() {
+		return function (Request $request) {
+			$id = $request->request->get('id');
+			$email = $request->request->get('email');
+			$code = $request->request->get('code');
+			$this->factory->createDao()->cancelWish($id, $email, $code);
 			return Json::create()->encode('OK');
 		};
 	}
