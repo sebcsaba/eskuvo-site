@@ -8,7 +8,6 @@ use Util\Hash;
 use Util\Http\Request;
 use Util\Http\Response;
 use Util\Mail;
-use Util\PhpTemplateRenderer;
 
 class Application
 {
@@ -120,8 +119,8 @@ class Application
 
 	private function handle(Exception $ex)
 	{
-		return function (Request $request, Response $response) {
-			$response->send('ERROR', Response::STATUS_INTERNAL_SERVER_ERROR);
+		return function (Request $request, Response $response) use ($ex) {
+			$response->send('ERROR: '.$ex->getMessage().' '.$ex->getTraceAsString(), Response::STATUS_INTERNAL_SERVER_ERROR);
 		};
 	}
 }
