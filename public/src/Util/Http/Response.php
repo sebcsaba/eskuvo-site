@@ -56,7 +56,13 @@ class Response
 	{
 		$texts = [
 			self::STATUS_OK => 'OK',
+			self::STATUS_INTERNAL_SERVER_ERROR => 'INTERNAL SERVER ERROR',
 		];
-		return $texts[$statusCode];
+		if (array_key_exists($statusCode, $texts)) {
+			return $texts[$statusCode];
+		}
+		else {
+			return $texts[self::STATUS_INTERNAL_SERVER_ERROR].'(code='.$statusCode.')';
+		}
 	}
 }
