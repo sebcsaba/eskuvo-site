@@ -32,6 +32,9 @@ class Dao
 		if (!$stmt->execute()) {
 			throw new Exception(var_export($stmt->errorInfo(),true));
 		}
+		if ($stmt->rowCount()!=1) {
+			throw new Exception('No record were updated.');
+		}
 	}
 
 	public function cancelWish($id, $email, $code)
@@ -43,6 +46,9 @@ class Dao
 		$stmt->bindParam('id', $id, PDO::PARAM_INT);
 		if (!$stmt->execute()) {
 			throw new Exception(var_export($stmt->errorInfo(),true));
+		}
+		if ($stmt->rowCount()!=1) {
+			throw new Exception('No record were updated.');
 		}
 	}
 

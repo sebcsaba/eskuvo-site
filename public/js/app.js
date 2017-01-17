@@ -6,21 +6,21 @@ function Model() {
 		$.getJSON(this.api+'/wish', null, cb);
 	};
 
-	this.reserve = function(id, email, cb){
+	this.reserve = function(id, email, cb, onFail){
 		var data = {
 			id: id,
 			email: email
 		};
-		$.post(this.api+'/reserve', data, cb, 'json');
+		$.post(this.api+'/reserve', data, cb, 'json').fail(onFail);
 	};
 
-	this.cancel = function(id, email, code, cb){
+	this.cancel = function(id, email, code, cb, onFail){
 		var data = {
 			id: id,
 			email: email,
 			code: code
 		};
-		$.post(this.api+'/cancel', data, cb, 'json');
+		$.post(this.api+'/cancel', data, cb, 'json').fail(onFail);
 	};
 
 }
@@ -69,6 +69,21 @@ function App() {
 		}
 	});
 
+	this.cancelDialog = $('#dialog-cancel').dialog({
+		autoOpen: false,
+		modal: true,
+		height: 200,
+		width: 450,
+		buttons: {
+			'Bezárás': function(){
+				app.cancelDialog.dialog('close');
+			}
+		},
+		close: function(){
+			app.model.list(initList);
+		}
+	});
+
 	$('#list').on('click', 'li', function(){
 		var id = $(this).attr('id');
 		var text = $(this).html();
@@ -80,9 +95,7 @@ function App() {
 	this.onSubmit = function() {
 		var id = $('#dialog-form input[name=id]').val();
 		var email = $('#dialog-form input[name=email]').val();
-		app.model.reserve(id, email, function(){
-			app.submitted();
-		});
+		app.model.reserve(id, email, app.submitted, app.onFail);
 		app.dialog.dialog('close');
 	};
 
@@ -102,12 +115,16 @@ function App() {
 	this.handleUrlRequest = function(param) {
 		var m = param.match(/^#cancel\|(.*)\|(.*)\|(.*)/);
 		if (m) {
-			app.model.cancel(m[1],m[2],m[3],app.onCancel);
+			app.model.cancel(m[1],m[2],m[3],app.onCancel, app.onFail);
 		}
-	}
+	};
 
 	this.onCancel = function() {
-		app.thx.dialog('open');
-	}
+		app.cancelDialog.dialog('open');
+	};
+
+	this.onFail = function() {
+		alert('Valami hiba történt, keresd meg vele Csabát!');
+	};
 
 }
