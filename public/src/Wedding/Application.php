@@ -2,9 +2,9 @@
 
 namespace Wedding;
 
-use PDO;
 use Silex\Application as SilexApplication;
 use Util\Json;
+use Symfony\Component\HttpFoundation\Request;
 
 class Application
 {
@@ -29,6 +29,7 @@ class Application
 		$app['debug'] = getenv('APPLICATION_ENV') === 'development';
 
 		$app->get('/wish', $this->wishList());
+		$app->post('/reserve', $this->reserveItem());
 
 		$app->run();
 	}
@@ -40,6 +41,19 @@ class Application
 	{
 		return function () {
 			return Json::create()->encode($this->factory->createDao()->getWishes());
+		};
+	}
+
+	/**
+	 * @return callable
+	 */
+	private function reserveItem() {
+		return function (Request $request) {
+			$id = $request->request->get('id');
+			$email = $request->request->get('email');
+			$code = substr(sha1($id.'|'.$email.'|'.time()), 0, 8);
+			$this->factory->createDao()->reserveWish($id, $email, $code);
+			return Json::create()->encode('OK');
 		};
 	}
 

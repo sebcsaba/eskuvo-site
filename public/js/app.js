@@ -11,7 +11,7 @@ function Model() {
 			id: id,
 			email: email
 		};
-//		$.getJSON(this.api+'/reserve', data, cb);
+		$.post(this.api+'/reserve', data, cb, 'json');
 		cb();
 	};
 
