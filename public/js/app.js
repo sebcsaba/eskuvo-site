@@ -113,7 +113,7 @@ function App() {
 	$('#dialog-form').on('keypress change focus', 'input[name=email]', this.verifyEmail);
 
 	this.handleUrlRequest = function(param) {
-		var m = param.match(/^#cancel\|(.*)\|(.*)\|(.*)/);
+		var m = decodeURIComponent(param).match(/^#cancel\|(.*)\|(.*)\|(.*)/);
 		if (m) {
 			app.model.cancel(m[1],m[2],m[3],app.onCancel, app.onFail);
 		}
