@@ -76,7 +76,11 @@ class Application
 			Mail::create(
 				'subject',
 				MailTemplate::create($url, $wish->description)->render()
-			)->sendTo([$email]);
+			)
+				->html()
+				->from('Bogi és Csaba <no-reply@maxer.hu>')
+				->replyTo('Sebestyén Csaba <sebcsaba@gmail.com>')
+				->sendTo([$email]);
 
 			$response->json('OK');
 		};
