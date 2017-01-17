@@ -73,13 +73,14 @@ class Application
 
 			$urlParams = 'cancel|'.urlencode($id).'|'.urlencode($email).'|'.urlencode($code);
 			$url = $_SERVER['HTTP_REFERER'] . '#' . $urlParams;
+			$tmpl = MailTemplate::create($url, $wish->description);
 			Mail::create(
-				'subject',
-				MailTemplate::create($url, $wish->description)->render()
+				$tmpl->getSubject(),
+				$tmpl->render()
 			)
 				->html()
-				->from('Bogi és Csaba <no-reply@maxer.hu>')
-				->replyTo('Sebestyén Csaba <sebcsaba@gmail.com>')
+				->from($tmpl->getFrom())
+				->replyTo($tmpl->getReplyTo())
 				->sendTo([$email]);
 
 			$response->json('OK');
