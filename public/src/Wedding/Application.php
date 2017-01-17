@@ -2,9 +2,11 @@
 
 namespace Wedding;
 
-use Silex\Application as SilexApplication;
-use Util\Json;
-use Symfony\Component\HttpFoundation\Request;
+use Exception;
+
+use Util\Hash;
+use Util\Http\Request;
+use Util\Http\Response;
 
 class Application
 {
@@ -24,15 +26,26 @@ class Application
 		$this->factory = $factory;
 	}
 
-	public function run(SilexApplication $app)
+	public function run()
 	{
-		$app['debug'] = getenv('APPLICATION_ENV') === 'development';
-
-		$app->get('/wish', $this->wishList());
-		$app->post('/reserve', $this->reserveItem());
-		$app->post('/cancel', $this->cancelItem());
-
-		$app->run();
+		try {
+			foreach ([
+						 '/wish' => $this->wishList(),
+						 '/reserve' => $this->reserveItem(),
+						 '/cancel' => $this->cancelItem(),
+					 ] as $route => $action) {
+				$matches = [];
+				if (!preg_match($this->convert($route), $_SERVER['PATH_INFO'], $matches)) {
+					continue;
+				}
+				$this->execute($action);
+				return;
+			}
+		} catch (Exception $ex) {
+			$this->execute($this->handle($ex));
+			return;
+		}
+		$this->execute($this->notFound());
 	}
 
 	/**
@@ -40,35 +53,67 @@ class Application
 	 */
 	private function wishList()
 	{
-		return function () {
-			return Json::create()->encode($this->factory->createDao()->getWishes());
+		return function (Request $request, Response $response) {
+			$response->json($this->factory->createDao()->getWishes());
 		};
 	}
 
 	/**
 	 * @return callable
 	 */
-	private function reserveItem() {
-		return function (Request $request) {
-			$id = $request->request->get('id');
-			$email = $request->request->get('email');
-			$code = substr(sha1($id.'|'.$email.'|'.time()), 0, 8);
+	private function reserveItem()
+	{
+		return function (Request $request, Response $response) {
+			$id = $request->get('id');
+			$email = $request->get('email');
+
+			$code = Hash::calculate([$id, $email, time()]);
 			$this->factory->createDao()->reserveWish($id, $email, $code);
-			return Json::create()->encode('OK');
+
+			$response->json('OK');
 		};
 	}
 
 	/**
 	 * @return callable
 	 */
-	private function cancelItem() {
-		return function (Request $request) {
-			$id = $request->request->get('id');
-			$email = $request->request->get('email');
-			$code = $request->request->get('code');
+	private function cancelItem()
+	{
+		return function (Request $request, Response $response) {
+			$id = $request->get('id');
+			$email = $request->get('email');
+			$code = $request->get('code');
+
 			$this->factory->createDao()->cancelWish($id, $email, $code);
-			return Json::create()->encode('OK');
+
+			$response->json('OK');
 		};
 	}
 
+	private function notFound()
+	{
+		return function (Request $request, Response $response) {
+			$response->json([]);
+		};
+	}
+
+	private function convert($route)
+	{
+		return '/^' . preg_quote($route, '/') . '$/';
+	}
+
+	/**
+	 * @param $action
+	 */
+	private function execute($action)
+	{
+		call_user_func($action, Request::create(), Response::create());
+	}
+
+	private function handle(Exception $ex)
+	{
+		return function (Request $request, Response $response) {
+			$response->send('ERROR', Response::STATUS_INTERNAL_SERVER_ERROR);
+		};
+	}
 }
