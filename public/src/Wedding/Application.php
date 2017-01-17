@@ -7,6 +7,8 @@ use Exception;
 use Util\Hash;
 use Util\Http\Request;
 use Util\Http\Response;
+use Util\Mail;
+use Util\PhpTemplateRenderer;
 
 class Application
 {
@@ -87,6 +89,11 @@ class Application
 			$code = $request->get('code');
 
 			$this->factory->createDao()->cancelWish($id, $email, $code);
+
+			Mail::create(
+				'subject',
+				MailTemplate::create('URL', 'DESCRIPTION')->render()
+			)->sendTo([$email]);
 
 			$response->json('OK');
 		};
