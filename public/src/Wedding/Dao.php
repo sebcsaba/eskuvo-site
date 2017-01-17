@@ -35,6 +35,7 @@ class Dao
 		if ($stmt->rowCount()!=1) {
 			throw new Exception('No record were updated.');
 		}
+		return $this->getItem($id);
 	}
 
 	public function cancelWish($id, $email, $code)
@@ -50,6 +51,13 @@ class Dao
 		if ($stmt->rowCount()!=1) {
 			throw new Exception('No record were updated.');
 		}
+	}
+
+	private function getItem($id)
+	{
+		$stmt = $this->db->prepare('SELECT * FROM wedding_list WHERE id=?');
+		$stmt->execute([$id]);
+		return $stmt->fetchObject();
 	}
 
 	private function fetchAll($query)

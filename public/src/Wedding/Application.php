@@ -68,8 +68,10 @@ class Application
 			$email = $request->get('email');
 
 			$code = Hash::calculate([$id, $email, time()]);
-			$this->factory->createDao()->reserveWish($id, $email, $code);
+			$wish = $this->factory->createDao()->reserveWish($id, $email, $code);
 
+			// $wish->description
+			// '#'.url_encode("cancel|$id|$email|$code");
 			$response->json('OK');
 		};
 	}
