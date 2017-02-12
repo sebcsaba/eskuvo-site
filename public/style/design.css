@@ -1,0 +1,44 @@
+@font-face {
+	font-family: LoraMOD;
+	src: url(Lora-Italic-MOD.ttf);
+}
+BODY {
+	margin: 0;
+	font-family: LoraMOD;
+}
+#base {
+	width: 818px;
+	margin: auto;
+	padding: 10px 0;
+}
+DIV.content {
+	width: 600px;
+	margin: auto;
+}
+H1 {
+	text-align: center;
+	font-size: 24pt;
+	font-weight: normal;
+	margin: 0.5em auto;
+}
+P {
+	margin: auto;
+}
+#list li:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#dialog-form fieldset {
+	border: 0;
+}
+#dialog-form label {
+	clear: left;
+}
+.msg-dialog {
+	font-size: 24pt;
+	text-align: center;
+}
+.ui-widget .ui-dialog-buttonset button:disabled {
+	color: #c5c5c5;
+}
