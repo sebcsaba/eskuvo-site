@@ -12,8 +12,11 @@ class MailTemplate extends PhpTemplate
 			?>
 			<html>
 			<body>
-			<h1><?= $description ?></h1>
-			this is the url: <?= $url ?>
+			<p>Kedves Vendégünk!</p>
+			<p>Ezt a dolgot foglaltad le: <?= $description ?> Köszönjük szépen, már nagyon vágytunk rá!</p>
+			<p>Ha netán valami közbejött, és szeretnéd mondani a foglalásodat, <a href="<?= $url ?>">erre a linkre</a> kattintva megteheted.</p>
+			<p>Várunk szeretettel június 17-én!</p>
+			<p>Bogi & Csaba</p>
 			</body>
 			</html>
 			<?php

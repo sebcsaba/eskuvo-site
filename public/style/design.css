@@ -12,7 +12,7 @@ BODY {
 	padding: 10px 0;
 }
 DIV.content {
-	width: 600px;
+	width: 500px;
 	margin: auto;
 }
 H1 {
@@ -22,7 +22,15 @@ H1 {
 	margin: 0.5em auto;
 }
 P {
-	margin: auto;
+	margin: 1em auto;
+}
+#list ul {
+	list-style-type: none;
+	text-transform: uppercase;
+	padding-left: 0;
+}
+#list li {
+	margin-top: 0.5em;
 }
 #list li:hover {
 	cursor: pointer;
