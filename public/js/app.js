@@ -45,7 +45,7 @@ function App() {
 		height: 200,
 		width: 400,
 		buttons: {
-			'Lefoglalom!': function(){
+			'Igen!': function(){
 				app.onSubmit();
 			},
 			'Mégsem': function(){
