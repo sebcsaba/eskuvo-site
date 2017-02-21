@@ -24,6 +24,10 @@ H1 {
 P {
 	margin: 1em auto;
 }
+#list img.wait {
+	display: block;
+	margin: auto;
+}
 #list ul {
 	list-style-type: none;
 	text-transform: uppercase;
